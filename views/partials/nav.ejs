@@ -1,0 +1,27 @@
+<header class="bg-white shadow-md px-6 py-4 flex flex-wrap justify-between items-center">
+  <a href="/" class="text-2xl font-bold text-blue-600 <%= currPage === 'index' ? 'underline underline-offset-4 text-blue-800' : '' %>">
+    easyEstate
+  </a>
+
+  <nav class="flex flex-wrap gap-4 items-center text-gray-700 text-sm font-medium">
+    <% if(isLoggedIn) { %> 
+      <% if(user && user.userType === "guest") { %>
+        <a href="/home-list" class="<%= currPage === 'Home' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Home-List</a>
+        <a href="/favourite-list" class="<%= currPage === 'favourites' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Favourites</a>
+        <a href="/bookings" class="<%= currPage === 'bookings' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">My Bookings</a>
+      <% } else { %>
+        <a href="/host/host-home-list" class="<%= currPage === 'host-homes' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Host Homes</a>
+        <a href="/host/add-home" class="<%= currPage === 'addHome' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Add Home</a>
+      <% } %>
+    <% } %>
+
+    <% if(!isLoggedIn){ %>
+      <a href="/login" class="<%= currPage === 'login' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Login</a>
+      <a href="/signup" class="<%= currPage === 'signup' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Sign Up</a>
+    <% } else { %>
+      <form action="/logout" method="POST" class="inline">
+        <button type="submit" class="text-red-600 hover:text-red-800 font-medium">Logout</button>
+      </form>
+    <% } %>
+  </nav>
+</header>

@@ -79,6 +79,10 @@ app.use(
   })
 );
 
+app.get("/healthz", (req, res) => {
+  res.sendStatus(200);
+});
+
 app.use(authRouter);
 
 app.use(storeRouter);

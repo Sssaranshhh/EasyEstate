@@ -1,27 +1,56 @@
-<header class="bg-white shadow-md px-6 py-4 flex flex-wrap justify-between items-center">
-  <a href="/" class="text-2xl font-bold text-blue-600 <%= currPage === 'index' ? 'underline underline-offset-4 text-blue-800' : '' %>">
-    easyEstate
-  </a>
+<header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-slate-200/50 px-6 py-3.5 flex flex-wrap justify-between items-center transition-all duration-300">
+  <div class="flex items-center gap-3">
+    <a href="/" class="flex items-center gap-2 text-2xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent active:scale-95 transition-transform duration-200">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-7 h-7 text-indigo-600">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+      </svg>
+      <span>easyEstate</span>
+    </a>
+  </div>
 
-  <nav class="flex flex-wrap gap-4 items-center text-gray-700 text-sm font-medium">
+  <nav class="flex flex-wrap items-center gap-2.5 text-sm font-semibold">
     <% if(isLoggedIn) { %> 
       <% if(user && user.userType === "guest") { %>
-        <a href="/home-list" class="<%= currPage === 'Home' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Home-List</a>
-        <a href="/favourite-list" class="<%= currPage === 'favourites' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Favourites</a>
-        <a href="/bookings" class="<%= currPage === 'bookings' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">My Bookings</a>
+        <a href="/home-list" class="px-4 py-2 rounded-xl transition-all duration-200 <%= currPage === 'Home' ? 'bg-indigo-50 text-indigo-700 font-bold' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50/80' %>">
+          Explore
+        </a>
+        <a href="/favourite-list" class="px-4 py-2 rounded-xl transition-all duration-200 <%= currPage === 'favourites' ? 'bg-indigo-50 text-indigo-700 font-bold' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50/80' %>">
+          Favourites
+        </a>
+        <a href="/bookings" class="px-4 py-2 rounded-xl transition-all duration-200 <%= currPage === 'bookings' ? 'bg-indigo-50 text-indigo-700 font-bold' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50/80' %>">
+          My Bookings
+        </a>
       <% } else { %>
-        <a href="/host/host-home-list" class="<%= currPage === 'host-homes' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Host Homes</a>
-        <a href="/host/add-home" class="<%= currPage === 'addHome' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Add Home</a>
+        <a href="/host/host-home-list" class="px-4 py-2 rounded-xl transition-all duration-200 <%= currPage === 'host-homes' ? 'bg-indigo-50 text-indigo-700 font-bold' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50/80' %>">
+          Host Homes
+        </a>
+        <a href="/host/add-home" class="px-4 py-2 rounded-xl transition-all duration-200 <%= currPage === 'addHome' ? 'bg-indigo-50 text-indigo-700 font-bold' : 'text-slate-600 hover:text-indigo-600 hover:bg-slate-50/80' %>">
+          Add Home
+        </a>
       <% } %>
     <% } %>
 
+    <div class="h-6 w-px bg-slate-200/80 mx-1 hidden sm:block"></div>
+
     <% if(!isLoggedIn){ %>
-      <a href="/login" class="<%= currPage === 'login' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Login</a>
-      <a href="/signup" class="<%= currPage === 'signup' ? 'text-blue-600 underline underline-offset-4' : 'hover:text-blue-500' %>">Sign Up</a>
+      <a href="/login" class="px-4 py-2 rounded-xl text-slate-600 hover:text-indigo-600 hover:bg-slate-50/80 transition-all duration-200">
+        Sign In
+      </a>
+      <a href="/signup" class="px-4.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition-all duration-200 shadow-sm shadow-indigo-100 hover:shadow active:scale-95">
+        Get Started
+      </a>
     <% } else { %>
-      <form action="/logout" method="POST" class="inline">
-        <button type="submit" class="text-red-600 hover:text-red-800 font-medium">Logout</button>
-      </form>
+      <div class="flex items-center gap-3">
+        <span class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200/50">
+          <span class="w-1.5 h-1.5 rounded-full <%= user && user.userType === 'host' ? 'bg-indigo-500' : 'bg-emerald-500' %> animate-pulse"></span>
+          <%= user && user.userType === 'host' ? 'Host Mode' : 'Guest' %>
+        </span>
+        <form action="/logout" method="POST" class="inline">
+          <button type="submit" class="px-4 py-2 rounded-xl text-slate-500 hover:text-rose-600 hover:bg-rose-50/50 transition-all duration-200 font-bold cursor-pointer active:scale-95">
+            Logout
+          </button>
+        </form>
+      </div>
     <% } %>
   </nav>
 </header>

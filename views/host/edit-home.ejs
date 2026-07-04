@@ -1,104 +1,149 @@
 <%- include('../partials/head') %>
-<link rel="stylesheet" href="/output.css">
-</head>
-<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+<body class="bg-slate-50/40 text-slate-800 font-sans min-h-screen flex flex-col antialiased">
   <%- include('../partials/nav') %>
 
-  <h1 class="text-3xl font-semibold text-center mt-8 mb-4">
-    <%= editing ? "Edit" : "Register" %> your Home here
-  </h1>
+  <main class="flex-grow flex justify-center items-center px-6 py-12 relative overflow-hidden">
+    <!-- Blurry ambient blobs -->
+    <div class="absolute top-1/4 left-1/3 w-72 h-72 bg-indigo-100/50 rounded-full blur-3xl -z-10"></div>
+    <div class="absolute bottom-1/4 right-1/3 w-72 h-72 bg-purple-100/40 rounded-full blur-3xl -z-10"></div>
 
-  <main class="flex-grow flex justify-center items-start">
-    <form
-      action="/host/<%= editing ? 'edit-home/' : 'add-home' %>"
-      method="POST"
-      enctype="multipart/form-data"
-      class="w-full max-w-2xl bg-white shadow-lg rounded-2xl p-8 space-y-6 border border-gray-200"
-    >
-      <input type="hidden" name="id" value="<%= editing ? home._id : '' %>">
-
-      <div>
-        <label for="homeName" class="block text-sm font-medium text-gray-700 mb-1">Name of the House</label>
-        <input
-          type="text"
-          id="homeName"
-          name="homeName"
-          value="<%= editing ? home.homeName : '' %>"
-          placeholder="Enter the name of your house"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+    <div class="w-full max-w-2xl bg-white border border-slate-200/50 shadow-xl shadow-slate-100/60 rounded-3xl p-8 space-y-6 relative z-10">
+      <!-- Title Header -->
+      <div class="text-center space-y-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100/80">
+          🏡 Host Dashboard Portal
+        </span>
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">
+          <%= editing ? "Update listed stays" : "Register a new stay" %>
+        </h1>
+        <p class="text-sm text-slate-400">
+          Provide accurate details about your property to attract guests.
+        </p>
       </div>
 
-      <div>
-        <label for="rentPerMonth" class="block text-sm font-medium text-gray-700 mb-1">Rent per month</label>
-        <input
-          type="text"
-          id="rentPerMonth"
-          name="rentPerMonth"
-          value="<%= editing ? home.rentPerMonth : '' %>"
-          placeholder="Enter the rent per month"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      <!-- Form -->
+      <form
+        action="/host/<%= editing ? 'edit-home/' : 'add-home' %>"
+        method="POST"
+        enctype="multipart/form-data"
+        class="space-y-5"
+      >
+        <input type="hidden" name="id" value="<%= editing ? home._id : '' %>">
 
-      <div>
-        <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
-        <input
-          type="text"
-          id="location"
-          name="location"
-          value="<%= editing ? home.location : '' %>"
-          placeholder="Enter the location"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+        <!-- Name of the House -->
+        <div class="space-y-1.5">
+          <label for="homeName" class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Property Name</label>
+          <input
+            type="text"
+            id="homeName"
+            name="homeName"
+            value="<%= editing ? home.homeName : '' %>"
+            placeholder="e.g. Cozy Sunset Villa"
+            required
+            class="w-full px-4 py-2.5 bg-slate-50/60 border border-slate-200 focus:bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-sm placeholder:text-slate-400 font-medium"
+          />
+        </div>
 
-      <div>
-        <label for="rating" class="block text-sm font-medium text-gray-700 mb-1">Rating out of 5</label>
-        <input
-          type="text"
-          id="rating"
-          name="rating"
-          value="<%= editing ? home.rating : '' %>"
-          placeholder="e.g. 4.5"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+        <!-- Address and Location -->
+        <div class="space-y-1.5">
+          <label for="location" class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Address / Location</label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            value="<%= editing ? home.location : '' %>"
+            placeholder="e.g. Bandra West, Mumbai"
+            required
+            class="w-full px-4 py-2.5 bg-slate-50/60 border border-slate-200 focus:bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-sm placeholder:text-slate-400 font-medium"
+          />
+        </div>
 
-      <div>
-        <label for="houseImage" class="block text-sm font-medium text-gray-700 mb-1">Picture of the House</label>
-        <input
-          type="file"
-          name="houseImage"
-          id="houseImage"
-          class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
-                 file:rounded-full file:border-0
-                 file:text-sm file:font-semibold
-                 file:bg-blue-50 file:text-blue-700
-                 hover:file:bg-blue-100"
-        />
-      </div>
+        <!-- Rent and Rating in Two Columns -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label for="rentPerMonth" class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Monthly Rent (₹)</label>
+            <input
+              type="number"
+              id="rentPerMonth"
+              name="rentPerMonth"
+              value="<%= editing ? home.rentPerMonth : '' %>"
+              placeholder="e.g. 15000"
+              required
+              class="w-full px-4 py-2.5 bg-slate-50/60 border border-slate-200 focus:bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-sm placeholder:text-slate-400 font-medium"
+            />
+          </div>
 
-      <div>
-        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-        <textarea
-          id="description"
-          name="description"
-          placeholder="Describe your home"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          rows="4"
-        ><%= editing ? home.description : '' %></textarea>
-      </div>
+          <div class="space-y-1.5">
+            <label for="rating" class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Rating (out of 5.0)</label>
+            <input
+              type="text"
+              id="rating"
+              name="rating"
+              value="<%= editing ? home.rating : '' %>"
+              placeholder="e.g. 4.5"
+              required
+              class="w-full px-4 py-2.5 bg-slate-50/60 border border-slate-200 focus:bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-sm placeholder:text-slate-400 font-medium"
+            />
+          </div>
+        </div>
 
-      <div class="text-center">
-        <button
-          type="submit"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition duration-200"
-        >
-          <%= editing ? "Update Home" : "Add Home" %>
-        </button>
-      </div>
-    </form>
+        <!-- Picture Upload -->
+        <div class="space-y-2">
+          <label for="houseImage" class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Property Photo</label>
+          
+          <div class="p-4 bg-slate-50 border border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-slate-100/50 transition duration-200 relative group">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-slate-450 group-hover:text-indigo-550 transition-colors">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+            <span class="text-xs font-bold text-slate-700">
+              <%= editing ? "Choose a new photo to replace current" : "Upload property preview photo" %>
+            </span>
+            <span class="text-[10px] text-slate-400">Supports PNG, JPG, or JPEG</span>
+            
+            <input
+              type="file"
+              name="houseImage"
+              id="houseImage"
+              <%= editing ? '' : 'required' %>
+              class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+            />
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="space-y-1.5">
+          <label for="description" class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Property Description</label>
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Write details about rooms, amenities, surroundings, etc."
+            required
+            class="w-full px-4 py-2.5 bg-slate-50/60 border border-slate-200 focus:bg-white rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-sm placeholder:text-slate-400 font-medium"
+            rows="4"
+          ><%= editing ? home.description : '' %></textarea>
+        </div>
+
+        <!-- Submit Buttons -->
+        <div class="flex items-center justify-end gap-3 pt-3">
+          <a
+            href="/host/host-home-list"
+            class="px-5 py-2.5 rounded-xl border border-slate-200/80 hover:bg-slate-50 text-slate-600 text-sm font-semibold transition active:scale-95 cursor-pointer"
+          >
+            Cancel
+          </a>
+          
+          <button
+            type="submit"
+            class="inline-flex items-center gap-1.5 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm transition-all duration-300 shadow-md shadow-indigo-100 hover:shadow active:scale-95 cursor-pointer"
+          >
+            <span><%= editing ? "Update Stays" : "List Stay" %></span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
   </main>
 </body>
 </html>

@@ -1,4 +1,5 @@
 //Core Module
+require("dotenv").config();
 const path = require("path");
 
 //Express Module
@@ -8,7 +9,7 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const { default: mongoose } = require("mongoose");
 const multer = require("multer");
-const DB_PATH = "mongodb://localhost:27017/";
+const DB_PATH = process.env.MONGODB_URI || "mongodb://localhost:27017/easyEstate";
 
 //Local Module
 const storeRouter = require("./routes/storeRouter");
@@ -71,7 +72,7 @@ app.use("/uploads", express.static(path.join(rootDir, "uploads")));
 
 app.use(
   session({
-    secret: "easyEstate project",
+    secret: process.env.SESSION_SECRET || "easyEstate project",
     resave: false,
     saveUninitialized: true,
     store,
@@ -91,7 +92,7 @@ app.use("/host", isLoggedIn, hostRouter);
 
 app.use(errorsController.pageNotFound);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 mongoose
   .connect(DB_PATH)
   .then(() => {
